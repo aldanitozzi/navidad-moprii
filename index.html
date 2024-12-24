@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÁRBOL DE NAVIDAD</title>
+    <style>
+        body {
+            background: black;
+            display: grid;
+            justify-content: center;
+            text-align: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            margin: 0;
+        }
+        h1 {
+            color: greenyellow;
+            font-size: 2em;
+        }
+        p {
+            color: teal;
+            font-size: 1.2em;
+        }
+        .estrella {
+            font-size: 50px;
+            animation: colores 1s infinite;
+            margin-top: 5%; /* Ajuste para el tamaño en pantallas más pequeñas */
+        }
+        .rojo {
+            color: red;
+            transition: all 1.5s;
+            font-size: 30px;
+        }
+        @keyframes colores {
+            0% { color: red; }
+            33% { color: green; }
+            66% { color: red; }
+            100% { color: yellow; }
+        }
+
+        /* Efecto de nieve más pequeña */
+        .nieve {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .nieve div {
+            position: absolute;
+            top: -5px;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: caer 3s linear infinite;
+        }
+        @keyframes caer {
+            0% { top: -5px; }
+            100% { top: 100vh; }
+        }
+
+        /* Estilo para el contenedor del mensaje */
+        .mensaje-container {
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-top: -10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            display: inline-block;
+        }
+
+        .mensaje-container h2 {
+            color: gold;
+            font-size: 2em;
+        }
+        .mensaje-container p {
+            font-size: 1.2em;
+        }
+
+        /* Contenedor para el árbol y el mensaje alineados */
+        .contenido {
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Responsividad: hacer ajustes para pantallas más pequeñas */
+        @media (max-width: 768px) {
+            .estrella {
+                font-size: 40px;
+                margin-top: 5%;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .mensaje-container h2 {
+                font-size: 1.5em;
+            }
+            .mensaje-container p {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .estrella {
+                font-size: 35px;
+            }
+            h1 {
+                font-size: 1.2em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+            .mensaje-container h2 {
+                font-size: 1.2em;
+            }
+            .mensaje-container p {
+                font-size: 0.9em;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="nieve">
+        <!-- Nieve generada dinámicamente -->
+    </div>
+    <div class="contenido">
+        <!-- Estrella y árbol dentro de un contenedor centrado -->
+        <div class="estrella">★</div>
+        <div id="arbol"></div>
+        
+        <!-- Contenedor para el mensaje -->
+        <div class="mensaje-container">
+            <h2>¡Feliz Navidad Mopri!</h2>
+            <p>✨¡ Que esta Navidad te traiga mucha alegría, paz y buenos momentos ! ✨</p>
+        </div>
+    </div>
+
+   
+    <script>
+        var hojas = "";
+        [10, 2].forEach(row => {
+            new Array(row).fill('').forEach((v, i) => {
+                hojas += ([
+                    ...Array(9 - i).fill("<span> </span>"),
+                    ...Array(1 + i * 2).fill("<span class='rojo'>*</span>"),
+                    ...Array(9 - i).fill("<span> </span>")
+                ].join(''));
+                hojas += "<br>";
+            });
+        });
+        document.getElementById("arbol").innerHTML = hojas;
+
+        let animacion = document.querySelectorAll(".rojo");
+        animacion.innerHTML = hojas;
+
+        function animar() {
+            for (var i = 0; i < animacion.length; i++) {
+                let tiempo = i / 20 + 1;
+                animacion[i].style.animation = "colores " + tiempo + "s infinite";
+            }
+        }
+        window.addEventListener('load', animar);
+
+        // Crear nieve aleatoria
+        const nieveContainer = document.querySelector('.nieve');
+        for (let i = 0; i < 100; i++) {
+            let nieve = document.createElement('div');
+            nieve.style.left = Math.random() * 100 + '%';
+            nieve.style.animationDuration = Math.random() * 5 + 3 + 's'; // Aleatorio entre 3s y 8s
+            nieve.style.animationDelay = Math.random() * 5 + 's'; // Aleatorio para el retraso
+            nieveContainer.appendChild(nieve);
+        }
+    </script>
+</body>
+</html>
